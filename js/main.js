@@ -151,3 +151,59 @@ if (networkMap) {
     new ResizeObserver(drawNetwork).observe(networkMap);
   }
 }
+
+const revealSelectors = [
+  ".hero-copy > *",
+  ".page-banner .wrap > *",
+  ".intro-band .wrap",
+  "main .section .wrap > *"
+];
+
+function revealDelay(el, opening) {
+  const group = [...el.parentElement.children];
+  const index = Math.max(0, group.indexOf(el));
+  if (!opening) return `${50 + Math.min(index, 6) * 90}ms`;
+  if (el.closest(".hero, .page-banner")) return `${240 + index * 130}ms`;
+  if (el.closest(".intro-band")) return "700ms";
+  return `${860 + Math.min(index, 5) * 110}ms`;
+}
+
+function showReveal(el, opening) {
+  el.style.setProperty("--reveal-delay", revealDelay(el, opening));
+  el.classList.add("is-shown");
+}
+
+function initReveal() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const seen = new Set();
+  const items = [];
+  revealSelectors.forEach((selector) => {
+    document.querySelectorAll(selector).forEach((el) => {
+      if (seen.has(el)) return;
+      seen.add(el);
+      items.push(el);
+    });
+  });
+
+  if (!items.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    items.forEach((el) => showReveal(el, true));
+    return;
+  }
+
+  const started = performance.now();
+  const observer = new IntersectionObserver((entries) => {
+    const duringOpen = performance.now() - started < 500;
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      showReveal(entry.target, duringOpen);
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -4% 0px" });
+
+  items.forEach((el) => observer.observe(el));
+}
+
+initReveal();

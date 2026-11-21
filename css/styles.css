@@ -1486,6 +1486,46 @@ textarea {
   }
 }
 
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes appear-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .hero-copy > *,
+  html.js .page-banner .wrap > *,
+  html.js .intro-band .wrap,
+  html.js main .section .wrap > * {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  html.js main .section .wrap > .network-map {
+    transform: none;
+  }
+
+  html.js .is-shown {
+    animation: appear 0.72s cubic-bezier(0.22, 0.7, 0.2, 1) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  html.js .network-map.is-shown {
+    animation-name: appear-fade;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ticker-track,
   .network-lines line,
