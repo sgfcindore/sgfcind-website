@@ -595,6 +595,36 @@ h3 {
   color: var(--muted);
 }
 
+.story-card .about-tagline {
+  margin: 0 0 16px;
+  color: var(--orange);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.about-subhead {
+  margin: 26px 0 8px;
+  color: var(--ink);
+  font-size: clamp(1.3rem, 2vw, 1.6rem);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.story-card strong {
+  color: #f7f9fc;
+  font-weight: 700;
+}
+
+.about-legacy {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
 .checks {
   list-style: none;
   padding: 0;
